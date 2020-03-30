@@ -1,0 +1,11 @@
+.DS_Store
+.idea/
+__pycache__/
+att_faces.tar.Z
+brightness_hist.csv
+dct.csv
+dft.csv
+env/
+gradient.csv
+orl_faces/
+scale.csv
