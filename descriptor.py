@@ -24,37 +24,29 @@ class DescriptorMaker:
         interval_len = math.ceil(len(color_range) / params)
         hist = [0] * params
         for i in image:
-            hist[i//interval_len] += 1
+            hist[i // interval_len] += 1
 
-        return hist
+        return np.array(hist)
 
     def dft(self, params, image):
-        print(image.shape)
         image = np.fft.fft2(image, norm='ortho')
-        # print(image)
-        print(image.shape)
-        plt.imshow(np.real(image), cmap='gray')
-        print(np.real(image)[:5,:5])
-        print(image[:5,:5])
-        plt.show()
+        return self.image_reshape(image[:params, :params])
 
     def dct(self, params, image):
         image = scipy.fftpack.dct(image, axis=1)
         image = scipy.fftpack.dct(image, axis=0)
-        print(image)
-        print(image.shape)
-        plt.imshow(image[:5, :5], cmap='gray')
-        plt.show()
+        return self.image_reshape(image[:params, :params])
 
     def scale(self, params, image):
-        result = cv2.resize(image, (int(image.shape[1] * params), int(image.shape[0] * params)))
-        result = result.reshape((result.shape[0] * result.shape[1],))
-        return result
+        image = cv2.resize(image, (int(image.shape[1] * params), int(image.shape[0] * params)))
+        # plt.imshow(image)
+        # plt.show()
+        return self.image_reshape(image)
 
     def gradient(self, params, image):
-        pass
+        image = np.gradient(image, axis=0)
+        image = np.gradient(image, axis=1)
+        return self.image_reshape(image[:params, :params])
 
-
-if __name__ == '__main__':
-    duc = DescriptorMaker()
-    duc.brightness_hist(1, 1)
+    def image_reshape(self, result):
+        return result.reshape((result.shape[0] * result.shape[1],))
