@@ -9,3 +9,4 @@ env/
 gradient.csv
 orl_faces/
 scale.csv
+settings_local.py
