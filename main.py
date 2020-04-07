@@ -54,8 +54,6 @@ class FaceFinder:
                 accuracies.append((cross / 5, param, test_size))
 
         accuracies = np.array(accuracies)
-        if method in ['gradient']:
-            accuracies[:, 0] += 0.1
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
         ax.scatter(np.array(accuracies[:, 1]), np.array(accuracies[:, 2]), np.array(accuracies[:, 0]), c='r',
@@ -78,10 +76,7 @@ class FaceFinder:
                 for _ in range(5):
                     val, predicted = self.find_face(method, best_params[method], test_size)
                     cross += val
-                if method in 'gradient':
-                    accuracies.append(cross / 5 + 0.1)
-                else:
-                    accuracies.append(cross / 5)
+                accuracies.append(cross / 5)
                 voting_predicted.append(predicted)
             voting_accuracies.append(voting_predicted)
             plt.plot(range(1, 10), list(reversed(accuracies)), label=method)
