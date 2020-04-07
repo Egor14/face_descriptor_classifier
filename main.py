@@ -14,18 +14,6 @@ class FaceFinder:
     def __init__(self):
         self.methods = ['brightness_hist', 'dft', 'dct', 'scale', 'gradient']
         self.descriptor_maker = DescriptorMaker()
-        if not all([os.path.exists(method + '.csv') for method in self.methods]):
-            self.make_all_descriptors()
-
-    def make_all_descriptors(self):
-        for method in self.methods:
-            with open(method + '.csv', 'w') as file:
-                writer = csv.DictWriter(file, fieldnames=['value', 'target'])
-                writer.writeheader()
-                for human in range(1, 41):
-                    for image_number in range(1, 11):
-                        result = getattr(self.descriptor_maker, method)(human, image_number)
-                        writer.writerow({'value': result, 'target': human})
 
     def make_descriptors(self, method, params):
         count = 0
